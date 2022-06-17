@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+html{ background-color: rgb(22, 15, 26);  
+ color: lime;   
+ font:  15px verdana;
+}
+
+h1,  h2,  h3,  h4,  h5,  h6 { text-align: center;   
+	padding:9px;     
+	color: white;        
+	background-color: rgb(95, 60, 96);     
+	border-radius: 12px;     
+	font-family:monospace;
+}
+
+h1, div, button, label, span, ng-template, a{
+	animation: fadeEffect 2.5s; 
+} 
+@keyframes fadeEffect { from {opacity: .2;}  
+	to {opacity: 1;}
+}  
+
+button, input, div, textarea, nav{ padding:6px; 
+	border-radius: 8px; 
+}
+
+.btn-default { 
+  opacity: 0.8;
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e0e0e0 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e0e0e0 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e0));
+  background-image: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-repeat: repeat-x;
+  border-color: #dbdbdb;
+  text-shadow: 0 1px 0 #fff;
+  border-color: #ccc;
+}
+
+.btn-default:hover,
+.btn-default:focus {   background-color: #e0e0e0;  background-position: 0 -15px;}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
