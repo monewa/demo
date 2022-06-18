@@ -1,0 +1,41 @@
+
+<html class='calc'>
+<head>
+	<link href='style.css' rel='stylesheet'>
+	<script src='script.js'></script>
+</head>
+
+<body class='calc'>
+<h1>My Calculator App</h1><br>
+<a href='index.html'>home</a>
+<!-- <br><br>console: <label id='console'></label> -->
+
+<div class='calc'>
+	Calculator<br><br>
+	<label id='answer'></label><br>
+	<textarea id='screen' placeholder='0'></textarea><br>
+	<button onclick='Calc.input("1")'>1</button>
+	<button onclick='Calc.input("2")'>2</button>
+	<button onclick='Calc.input("3")'>3</button>
+	<button onclick='Calc.calculate("+")'>+</button>
+	<button onclick='Calc.clearAll()' >C</button>	<br>
+	
+	<button onclick='Calc.input("4")'>4</button>
+	<button onclick='Calc.input("5")'>5</button>
+	<button onclick='Calc.input("6")'>6</button>
+	<button onclick='Calc.calculate("-")'>-</button>
+	<button onclick='Calc.clearScreen()' >CE</button>	<br>
+	
+	<button onclick='Calc.input("7")'>7</button>
+	<button onclick='Calc.input("8")'>8</button>
+	<button onclick='Calc.input("9")'>9</button>
+	<button onclick='Calc.calculate("x")'>x</button>	<br>
+	
+	<button onclick='Calc.input("0")'>0</button>
+	<button onclick='Calc.input(".")'>.</button>
+	<button onclick='Calc.calculate("/")'>/</button>
+	<button>=</button><br>
+</div>
+</body>
+
+<html>
