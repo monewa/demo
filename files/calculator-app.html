@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+	<link href='style.css' rel='stylesheet'>
+	<script src='calculator-app.js'></script>
+	<title>Calculator App</title>
+</head>
+
+<body>
+<h1>My Calculator App</h1>
+<nav>
+	<ul>
+		<a href='../index.html'>Home</a>
+	</ul>
+</nav>
+
+<div class='calc' >
+	Calculator<br><br>
+	<label id='answer'></label><br>
+	<textarea onkeypress='Calc.keyInput()' 
+					 id='screen' placeholder='0' readonly></textarea><br>
+	<button onclick='Calc.numberInput("1")'>1</button>
+	<button onclick='Calc.numberInput("2")'>2</button>
+	<button onclick='Calc.numberInput("3")'>3</button>
+	<button onclick='Calc.clearEntry()' class='clear' >CE</button>	
+	<button onclick='Calc.clearAll()' class='clear'>C</button>	<br>
+	
+	<button onclick='Calc.numberInput("4")'>4</button>
+	<button onclick='Calc.numberInput("5")'>5</button>
+	<button onclick='Calc.numberInput("6")'>6</button>
+	<button onclick='Calc.calculate("add")' class='operator'>+</button>
+	<button onclick='Calc.calculate("minus")' class='operator'>-</button><br>
+	
+	<button onclick='Calc.numberInput("7")'>7</button>
+	<button onclick='Calc.numberInput("8")'>8</button>
+	<button onclick='Calc.numberInput("9")'>9</button>
+	<button onclick='Calc.calculate("times")' class='operator'>x</button>	
+	<button onclick='Calc.calculate("divide")' class='operator'>/</button><br>
+	
+	<button onclick='Calc.numberInput("0")'>0</button>
+	<button onclick='Calc.numberInput(".")'>.</button>
+	<button onclick='Calc.calculate("equals")' class='operator'>=</button><br>
+</div>
+</body>
+
+<html>
