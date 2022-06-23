@@ -1,0 +1,52 @@
+
+<!doctype html>
+<html>
+<head>
+	<link href='style.css' rel='stylesheet'>
+	<script src='converter.js'></script>
+	<title>Converter App</title>
+</head>
+
+<body>
+<h1>Converter</h1>
+
+<nav>
+	<ul>
+		<a href='../index.html'>Home</a>
+		<a href='calculator-app.html'>See Calculator app</a>
+	</ul>
+</nav>
+
+<div class='calc converter' >
+	Converter<br>
+	<label id='answer'></label><br>
+	<textarea onkeypress='Calc.keyInput()' 
+					 id='screen' placeholder='0' readonly></textarea><br>
+	<div class='numpad'>
+		<button onclick='Calc.calculate("add")' class='operator unit'>Rands</button>
+		<button onclick='Calc.calculate("minus")' class='operator unit'>Dollars</button>
+		<button onclick='Calc.calculate("times")' class='operator unit'>Meters</button>	
+		<button onclick='Calc.calculate("divide")' class='operator unit'>Cm</button><br>
+		<button onclick='Calc.numberInput("1")'>1</button>
+		<button onclick='Calc.numberInput("2")'>2</button>
+		<button onclick='Calc.numberInput("3")'>3</button>
+		<button onclick='Calc.clearEntry()' class='clear' >CE</button>	
+		<button onclick='Calc.clearAll()' class='clear'>C</button>	<br>
+		
+		<button onclick='Calc.numberInput("4")'>4</button>
+		<button onclick='Calc.numberInput("5")'>5</button>
+		<button onclick='Calc.numberInput("6")'>6</button><br>
+		
+		<button onclick='Calc.numberInput("7")'>7</button>
+		<button onclick='Calc.numberInput("8")'>8</button>
+		<button onclick='Calc.numberInput("9")'>9</button><br>
+		
+		<button onclick='Calc.numberInput("0")'>0</button>
+		<button onclick='Calc.numberInput(".")'>.</button>
+		<button onclick='Calc.calculate("equals")' class='operator unit'>convert</button>
+	</div>
+</div>
+
+
+
+</body>

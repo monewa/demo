@@ -1,60 +1,76 @@
 
+
+	
 class Calc{
-	constructor(){	}
+	constructor(){  }
 	
-	static step:string='enter first number';
-	static answer:number=0;
-	static screenValue:string='';
-	static previousSymbol:string=''
+	 step:string= 'enter first number';
+	 answer:number= 0;
+	 screenValue:string= '';
+	 previousSymbol:string;
+	 periodIsPressed:boolean= false;
+	 acceptedValues:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0','.'];
+	 acceptedOperators:string[]= ['+', '-', '*', '/', '=', 'Enter'];
 	
-	static numberInput(num:string):void{
+	 setNumber(num:string):void{
+		if(this.checkForPeriod(num)){
+			return;
+		}
 		this.screenValue+=num;
 		this.setMainScreen();
 	}
 	
-	static keyInput(){
-		let key= this.getScreenValue();
-		let screen =document.getElementById('screen');
-		screen.addEventListener('keydown', (event)=>{		
-			switch(event.code){
-				case 'Digit1' || 'Digit9': this.numberInput('1'); break;
-				case 'Digit2': this.numberInput('2'); break;
-				case 'Digit3': this.numberInput('3'); break;
-				case 'Digit4': this.numberInput('4'); break;
-				case 'Digit5': this.numberInput('5'); break; 
+	 setKeyInput():void{
+		document.onkeyup= (keyEvent:KeyboardEvent)=>{
+			let key:string= keyEvent.key
+			this.acceptedValues.forEach((v:string)=> {
+				if(v==key){
+					this.setNumber(key);
+				}
+			})
+			this.acceptedOperators.forEach(o=>{
+				if(o==key){
+					this.calculate(key);
+				}
+			}) 
+		}
+	}
+		
+	 checkForPeriod(num:string):boolean{
+		if(num=='.'){
+			if(this.periodIsPressed){
+				return true;
 			}
-		})  
+			else{			
+				this.periodIsPressed=true;
+				return false;
+			}
+		}
 	}
 	
-	static clearScreen():void{
-		this.screenValue='';
-		this.setMainScreen('');
+	 clearScreenForNextNum():void{
+		this.clearEntry();
 		this.setAnswerScreen(this.answer);
 	}
 	
-	static runOperation(operation:string):void{
-		let value= parseFloat(this.screenValue);
-		if(operation=='add'){
+	 runOperation(operation:string):void{
+		let value:number= parseFloat(this.screenValue);
+		if(operation=='+'){
 			this.answer+= value;
 		}
-		if(operation=='minus'){
+		if(operation=='-'){
 			this.answer-= value;
 		}
-		if(operation=='times'){
+		if(operation=='*'){
 			this.answer*= value;
 		}
-		if(operation=='divide'){
+		if(operation=='/'){
 			this.answer/= value;
-		
-			if(this.answer==Infinity ){
-				this.previousSymbol= '';
-				this.setAnswerScreen();
-			}
 		}
 		
 	}
 
-	static calculate(operation:string):void{
+	 calculate(operation:string):void{
 		if(this.screenValue==''){
 			this.previousSymbol= operation;
 			this.setAnswerScreen();
@@ -63,9 +79,9 @@ class Calc{
 		if(this.step== 'enter first number'){
 			this.answer= parseFloat(this.screenValue);
 			this.previousSymbol= operation;
-			this.step= 'enter second number';
+			this.step= 'enter next number';
 		}
-		else if(this.step== 'enter second number'){	
+		else if(this.step== 'enter next number'){	
 			this.runOperation(this.previousSymbol);
 			this.previousSymbol= operation;
 			this.step='repeat';
@@ -73,27 +89,27 @@ class Calc{
 		else if(this.step== 'repeat'){
 			this.runOperation(this.previousSymbol);
 			this.previousSymbol= operation;
-			this.step='enter second number';
+			this.step='enter next number';
 		}
-		this.clearScreen();
-		
-		if(operation=='equals'){
+		this.clearScreenForNextNum();
+		 if(operation=='=' ||operation=='Enter'){
 			this.equals();
 		}
 	}
 
-	static equals():void{
-			let finalAnswer=this.answer;
+	 equals():void{
+			let finalAnswer:number=this.answer;
 			this.clearAll();
 			this.setMainScreen(finalAnswer);
 		}
 
-	static clearEntry():void{
+	 clearEntry():void{
+		this.periodIsPressed=false;
 		this.screenValue='';
 		this.setMainScreen();
 	}
 
-	static clearAll():void{
+	 clearAll():void{
 		this.step= 'enter first number';
 		this.previousSymbol='';
 		this.answer=0;
@@ -101,16 +117,22 @@ class Calc{
 		this.setAnswerScreen('');
 	}
 	
-	static setMainScreen(value:number|string=this.screenValue):void{
+	 setMainScreen(value:number|string=this.screenValue):void{
 		(<HTMLInputElement> document.getElementById('screen')).value=value+'';
 	}
 	
-	static setAnswerScreen(value:string|number=this.answer):void{
-		document.getElementById('answer').innerHTML=value+'   '+this.previousSymbol;
+	 setAnswerScreen(value:string|number=this.answer):void{
+		if(this.previousSymbol=='Enter' ||this.previousSymbol=='='){
+			this.previousSymbol= ''
+		}
+		document.getElementById('answer').innerHTML=value+' '+this.previousSymbol;
 	}
 	
-	static getScreenValue(){
+	 getScreenValue():string{
 		return (<HTMLInputElement> document.getElementById('screen')).value;
 	}
 	
 }
+
+var c= new Calc()
+

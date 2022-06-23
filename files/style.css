@@ -38,20 +38,38 @@ background-color:white;
 
 div.calc{background-color:rgb(5%, 2%, 10%);
 font-size:24px;
-width:315px;
+width:300px;
 padding:12px;
 position:relative;
 left:100px;
 top:80px;
+/* text-align:center; */
+}
+
+div.converter{background-color:black; /* white; */
+color:black;
+/* width:35%; */
+left:60px;
+}
+
+div.numpad{padding:13px;	
 }
 
 button{ background-color:lightblue;
 width:55px;
 font-size:30px;
+margin-bottom:-3px;
+margin-left:-12px;
 }
 
-button.operator{
-background-color:rgb(70%, 60%, 80%);
+button.operator{background-color:rgb(70%, 60%, 80%);
+}
+
+button.unit{width:25%;
+height:35px;
+margin-left:-12px;
+font-size:16px;
+	
 }
 
 button.clear{
@@ -74,7 +92,7 @@ textarea{font-size:30px;
 	background-color:rgb(5%, 2%, 10%);
 	border:solid white;
 	color:white;
-	width:305px;
+	width:250px;
 	text-align:right;
 }
 
@@ -89,8 +107,6 @@ table{background-color:black;
 	text-align:center;		
 	padding:8px;
 }
-
-
 
 td{height:50px;
 width:125px;
