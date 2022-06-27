@@ -1,42 +1,70 @@
 
-
-	
 class Calc{
 	constructor(){  }
 	
-	 step:string= 'enter first number';
-	 answer:number= 0;
-	 screenValue:string= '';
-	 previousSymbol:string;
-	 periodIsPressed:boolean= false;
-	 acceptedValues:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0','.'];
-	 acceptedOperators:string[]= ['+', '-', '*', '/', '=', 'Enter'];
+	step:string= 'enter first number';
+	answer:number= 0;
+	screenValue:string= '';
+	previousSymbol:string;
+	periodIsPressed:boolean= false;
+	acceptedValues:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
+	acceptedOperators:string[]= ['+', '-', '*', '/', '=', 'Enter'];
+	acceptedFunctions:string[]= ['Delete', 'Backspace'];
 	
-	 setNumber(num:string):void{
-		if(this.checkForPeriod(num)){
+	setValue(num:string):void{
+		if(this.moreThanOnePeriod(num)){
 			return;
 		}
 		this.screenValue+=num;
 		this.setMainScreen();
 	}
 	
-	 setKeyInput():void{
+	validateValue(key:string):boolean{
+		let isValid:boolean=false;
+		this.acceptedValues.forEach((v:string)=> {
+			if(v==key){
+				isValid= true;
+			}
+		})
+		return isValid;
+	}
+	
+	validateOperator(key:string):boolean{
+		let isValid:boolean=false;
+		this.acceptedOperators.forEach(o=>{
+			if(o==key){
+				isValid= true;
+			}
+		})
+		return isValid;
+	}
+	
+	validateFunctions(key:string):boolean{
+		let isValid:boolean=false;
+		this.acceptedFunctions.forEach(f=>{
+			if(f==key){
+				isValid= true;
+			}
+		})
+		return isValid;
+	}
+	
+	setKeyInput():void{
 		document.onkeyup= (keyEvent:KeyboardEvent)=>{
-			let key:string= keyEvent.key
-			this.acceptedValues.forEach((v:string)=> {
-				if(v==key){
-					this.setNumber(key);
-				}
-			})
-			this.acceptedOperators.forEach(o=>{
-				if(o==key){
-					this.calculate(key);
-				}
-			}) 
+			let key= keyEvent.key
+			if(this.validateValue(key)){
+				this.setValue(key);
+			} 
+			else if(this.validateOperator(key)){
+				this.calculate(key);
+			}
+			else if(this.validateFunctions(key)){
+				this.runFunction(key);
+			}
 		}
 	}
 		
-	 checkForPeriod(num:string):boolean{
+	moreThanOnePeriod(num:string):boolean{
 		if(num=='.'){
 			if(this.periodIsPressed){
 				return true;
@@ -48,90 +76,107 @@ class Calc{
 		}
 	}
 	
-	 clearScreenForNextNum():void{
+	clearScreenForNextNum():void{
 		this.clearEntry();
-		this.setAnswerScreen(this.answer);
+		this.setAnswerScreen();
 	}
 	
-	 runOperation(operation:string):void{
+	runOperation():void{
 		let value:number= parseFloat(this.screenValue);
-		if(operation=='+'){
+		if(this.previousSymbol=='+'){
 			this.answer+= value;
 		}
-		if(operation=='-'){
+		if(this.previousSymbol=='-'){
 			this.answer-= value;
 		}
-		if(operation=='*'){
+		if(this.previousSymbol=='*'){
 			this.answer*= value;
 		}
-		if(operation=='/'){
+		if(this.previousSymbol=='/'){
 			this.answer/= value;
-		}
+		}	
 		
 	}
 
-	 calculate(operation:string):void{
+	moreThanOneOperator(operation:string):boolean{
 		if(this.screenValue==''){
+			if(operation== '=' || operation=='Enter'){
+				return false
+			}
 			this.previousSymbol= operation;
 			this.setAnswerScreen();
-			return;
+			return true;
 		}	
-		if(this.step== 'enter first number'){
+	}
+	
+	calculate(operation?:string):void{
+		if(this.moreThanOneOperator(operation)){
+		console.log('more.ans '+this.answer)
+			if(operation== '=' || operation=='Enter'){
+		console.log('eq .ans '+this.answer)
+			this.runEquals();
+		}
+		return;
+		}
+		if(this.step== 'enter first number'){ 
 			this.answer= parseFloat(this.screenValue);
 			this.previousSymbol= operation;
 			this.step= 'enter next number';
+			this.clearScreenForNextNum(); 
 		}
-		else if(this.step== 'enter next number'){	
-			this.runOperation(this.previousSymbol);
+		else if(this.step== 'enter next number'){ 
+		console.log('nxt .ans '+this.answer)
+			this.runOperation();
 			this.previousSymbol= operation;
-			this.step='repeat';
+			this.clearScreenForNextNum(); 
 		}
-		else if(this.step== 'repeat'){
-			this.runOperation(this.previousSymbol);
-			this.previousSymbol= operation;
-			this.step='enter next number';
+		if(operation== '=' || operation=='Enter'){
+		console.log('eq2 ans '+this.answer)
+			this.runEquals();
 		}
-		this.clearScreenForNextNum();
-		 if(operation=='=' ||operation=='Enter'){
-			this.equals();
-		}
-	}
+		console.log('end ans '+this.answer)
+	} 
 
-	 equals():void{
+	runEquals():void{
+		if(this.step== 'enter next number'){
 			let finalAnswer:number=this.answer;
 			this.clearAll();
-			this.setMainScreen(finalAnswer);
+			this.setMainScreen(finalAnswer);	
 		}
-
-	 clearEntry():void{
+	}
+		
+	runFunction(functions:string){
+		if(functions=='Delete'){
+			this.clearAll();
+			return;
+		} 
+		if(functions=='Backspace'){
+			this.clearEntry();
+			return;
+		} 
+	}
+	
+	clearEntry():void{
 		this.periodIsPressed=false;
 		this.screenValue='';
 		this.setMainScreen();
 	}
 
-	 clearAll():void{
+	clearAll():void{
 		this.step= 'enter first number';
 		this.previousSymbol='';
 		this.answer=0;
 		this.clearEntry();
-		this.setAnswerScreen('');
+		this.setAnswerScreen(' ');
 	}
 	
-	 setMainScreen(value:number|string=this.screenValue):void{
+	setMainScreen(value:number|string=this.screenValue):void{
 		(<HTMLInputElement> document.getElementById('screen')).value=value+'';
 	}
 	
-	 setAnswerScreen(value:string|number=this.answer):void{
-		if(this.previousSymbol=='Enter' ||this.previousSymbol=='='){
-			this.previousSymbol= ''
-		}
+	setAnswerScreen(value:string|number=this.answer):void{
 		document.getElementById('answer').innerHTML=value+' '+this.previousSymbol;
 	}
-	
-	 getScreenValue():string{
-		return (<HTMLInputElement> document.getElementById('screen')).value;
-	}
-	
 }
 
 var c= new Calc()

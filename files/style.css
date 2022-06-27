@@ -8,7 +8,7 @@ h1{background-color:black;
 }
 
 nav{
- /* overflow:hidden; */
+  overflow:hidden;
 	
 }
 
@@ -47,7 +47,7 @@ top:80px;
 }
 
 div.converter{background-color:black; /* white; */
-color:black;
+color:pink;
 /* width:35%; */
 left:60px;
 }
@@ -69,6 +69,7 @@ button.unit{width:25%;
 height:35px;
 margin-left:-12px;
 font-size:16px;
+/* margin-bottom:-2px; */
 	
 }
 
