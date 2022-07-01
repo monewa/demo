@@ -5,77 +5,69 @@ class Calc{
 	step:string= 'enter first number';
 	answer:number= 0;
 	screenValue:string= '';
-	previousSymbol:string;
+	previousSymbol:string='';
 	periodIsPressed:boolean= false;
+	endOfcalculation:boolean= true;
 	acceptedValues:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
-	acceptedOperators:string[]= ['+', '-', '*', '/', '=', 'Enter'];
+	acceptedOperators:string[]= ['+', '-', '*', '/', '='];
 	acceptedFunctions:string[]= ['Delete', 'Backspace'];
 	
+	restrictValues(num:string):boolean{
+		if(num== '0' && this.screenValue== '0'){
+			return true;
+		}
+		if(this.screenValue.length >= 16){
+			return true; 
+		}	
+		if(num=='.' && this.periodIsPressed){
+			return true;
+		}
+		if(num=='.'){
+			this.periodIsPressed=true;
+		}
+	}
+	
 	setValue(num:string):void{
-		if(this.moreThanOnePeriod(num)){
+		if(this.restrictValues(num)){
 			return;
 		}
+		if(this.endOfcalculation){
+			this.endOfcalculation= false;
+		}
 		this.screenValue+=num;
+		if(this.screenValue=='.'){
+			this.screenValue='0.';
+		}
 		this.setMainScreen();
 	}
 	
-	validateValue(key:string):boolean{
-		let isValid:boolean=false;
+	validateKeyboardInput(key:string):void{
 		this.acceptedValues.forEach((v:string)=> {
 			if(v==key){
-				isValid= true;
+				this.setValue(key);
 			}
 		})
-		return isValid;
-	}
-	
-	validateOperator(key:string):boolean{
-		let isValid:boolean=false;
-		this.acceptedOperators.forEach(o=>{
-			if(o==key){
-				isValid= true;
-			}
-		})
-		return isValid;
-	}
-	
-	validateFunctions(key:string):boolean{
-		let isValid:boolean=false;
-		this.acceptedFunctions.forEach(f=>{
-			if(f==key){
-				isValid= true;
-			}
-		})
-		return isValid;
+		this.acceptedOperators.forEach(
+			(o:string)=> {
+				if(o==key){
+					this.calculate(key);
+				}
+			})
+		this.acceptedFunctions.forEach(
+			(f:string)=> {
+				if(f==key){
+					this.runFunction(key);
+				}
+			})
 	}
 	
 	setKeyInput():void{
 		document.onkeyup= (keyEvent:KeyboardEvent)=>{
-			let key= keyEvent.key
-			if(this.validateValue(key)){
-				this.setValue(key);
-			} 
-			else if(this.validateOperator(key)){
-				this.calculate(key);
-			}
-			else if(this.validateFunctions(key)){
-				this.runFunction(key);
-			}
+			let key= keyEvent.key;
+			this.validateKeyboardInput(key);
 		}
 	}
 		
-	moreThanOnePeriod(num:string):boolean{
-		if(num=='.'){
-			if(this.periodIsPressed){
-				return true;
-			}
-			else{			
-				this.periodIsPressed=true;
-				return false;
-			}
-		}
-	}
-	
 	clearScreenForNextNum():void{
 		this.clearEntry();
 		this.setAnswerScreen();
@@ -83,76 +75,86 @@ class Calc{
 	
 	runOperation():void{
 		let value:number= parseFloat(this.screenValue);
-		if(this.previousSymbol=='+'){
+		if(this.previousSymbol== '+'){
 			this.answer+= value;
 		}
-		if(this.previousSymbol=='-'){
+		if(this.previousSymbol== '-'){
 			this.answer-= value;
 		}
-		if(this.previousSymbol=='*'){
+		if(this.previousSymbol== '*'){
 			this.answer*= value;
 		}
-		if(this.previousSymbol=='/'){
+		if(this.previousSymbol== '/'){
+			if(this.answer== 0 && value== 0){
+				this.answer= Infinity;
+				return;
+			}
 			this.answer/= value;
 		}	
-		
-	}
-
-	moreThanOneOperator(operation:string):boolean{
-		if(this.screenValue==''){
-			if(operation== '=' || operation=='Enter'){
-				return false
-			}
-			this.previousSymbol= operation;
-			this.setAnswerScreen();
-			return true;
-		}	
+		this.answer= parseFloat(this.answer.toPrecision(8));		
 	}
 	
-	calculate(operation?:string):void{
-		if(this.moreThanOneOperator(operation)){
-		console.log('more.ans '+this.answer)
-			if(operation== '=' || operation=='Enter'){
-		console.log('eq .ans '+this.answer)
-			this.runEquals();
+	restrictCalculation(operation:string):boolean{
+		if(this.endOfcalculation){
+			return true;
 		}
-		return;
+		if(operation== '=' &&this.step== 'enter first number'){
+			return true;
 		}
+		if(this.screenValue== ''){
+			if(operation== '='){
+				this.runEquals() ;
+				return true;
+			}  
+			else{ 
+				this.previousSymbol= operation;
+				this.setAnswerScreen();
+				return true;
+			}
+		}
+	}
+	
+	calculate(operation:string):void{
+		if(this.restrictCalculation(operation)){
+			return;
+		}	
 		if(this.step== 'enter first number'){ 
 			this.answer= parseFloat(this.screenValue);
 			this.previousSymbol= operation;
 			this.step= 'enter next number';
 			this.clearScreenForNextNum(); 
+			return;
 		}
-		else if(this.step== 'enter next number'){ 
-		console.log('nxt .ans '+this.answer)
+		if(operation== '='){
 			this.runOperation();
+			this.runEquals();
+			return;
+		}
+		if(this.step== 'enter next number'){ 
+			this.runOperation();
+			if(!isFinite(this.answer)){
+				this.runEquals();
+				return;
+			}
 			this.previousSymbol= operation;
 			this.clearScreenForNextNum(); 
 		}
-		if(operation== '=' || operation=='Enter'){
-		console.log('eq2 ans '+this.answer)
-			this.runEquals();
-		}
-		console.log('end ans '+this.answer)
 	} 
 
 	runEquals():void{
 		if(this.step== 'enter next number'){
-			let finalAnswer:number=this.answer;
+			let finalAnswer:number= this.answer;
 			this.clearAll();
-			this.setMainScreen(finalAnswer);	
+			this.setMainScreen(finalAnswer);
 		}
 	}
 		
 	runFunction(functions:string){
 		if(functions=='Delete'){
 			this.clearAll();
-			return;
 		} 
 		if(functions=='Backspace'){
 			this.clearEntry();
-			return;
 		} 
 	}
 	
@@ -164,8 +166,9 @@ class Calc{
 
 	clearAll():void{
 		this.step= 'enter first number';
-		this.previousSymbol='';
-		this.answer=0;
+		this.previousSymbol= '';
+		this.answer= 0;
+		this.endOfcalculation= true;
 		this.clearEntry();
 		this.setAnswerScreen(' ');
 	}

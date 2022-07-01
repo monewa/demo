@@ -3,70 +3,64 @@ var Calc = /** @class */ (function () {
         this.step = 'enter first number';
         this.answer = 0;
         this.screenValue = '';
+        this.previousSymbol = '';
         this.periodIsPressed = false;
+        this.endOfcalculation = true;
         this.acceptedValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
-        this.acceptedOperators = ['+', '-', '*', '/', '=', 'Enter'];
+        this.acceptedOperators = ['+', '-', '*', '/', '='];
         this.acceptedFunctions = ['Delete', 'Backspace'];
     }
+    Calc.prototype.restrictValues = function (num) {
+        if (num == '0' && this.screenValue == '0') {
+            return true;
+        }
+        if (this.screenValue.length >= 16) {
+            return true;
+        }
+        if (num == '.' && this.periodIsPressed) {
+            return true;
+        }
+        if (num == '.') {
+            this.periodIsPressed = true;
+        }
+    };
     Calc.prototype.setValue = function (num) {
-        if (this.moreThanOnePeriod(num)) {
+        if (this.restrictValues(num)) {
             return;
         }
+        if (this.endOfcalculation) {
+            this.endOfcalculation = false;
+        }
         this.screenValue += num;
+        if (this.screenValue == '.') {
+            this.screenValue = '0.';
+        }
         this.setMainScreen();
     };
-    Calc.prototype.validateValue = function (key) {
-        var isValid = false;
+    Calc.prototype.validateKeyboardInput = function (key) {
+        var _this = this;
         this.acceptedValues.forEach(function (v) {
             if (v == key) {
-                isValid = true;
+                _this.setValue(key);
             }
         });
-        return isValid;
-    };
-    Calc.prototype.validateOperator = function (key) {
-        var isValid = false;
         this.acceptedOperators.forEach(function (o) {
             if (o == key) {
-                isValid = true;
+                _this.calculate(key);
             }
         });
-        return isValid;
-    };
-    Calc.prototype.validateFunctions = function (key) {
-        var isValid = false;
         this.acceptedFunctions.forEach(function (f) {
             if (f == key) {
-                isValid = true;
+                _this.runFunction(key);
             }
         });
-        return isValid;
     };
     Calc.prototype.setKeyInput = function () {
         var _this = this;
         document.onkeyup = function (keyEvent) {
             var key = keyEvent.key;
-            if (_this.validateValue(key)) {
-                _this.setValue(key);
-            }
-            else if (_this.validateOperator(key)) {
-                _this.calculate(key);
-            }
-            else if (_this.validateFunctions(key)) {
-                _this.runFunction(key);
-            }
+            _this.validateKeyboardInput(key);
         };
-    };
-    Calc.prototype.moreThanOnePeriod = function (num) {
-        if (num == '.') {
-            if (this.periodIsPressed) {
-                return true;
-            }
-            else {
-                this.periodIsPressed = true;
-                return false;
-            }
-        }
     };
     Calc.prototype.clearScreenForNextNum = function () {
         this.clearEntry();
@@ -84,26 +78,35 @@ var Calc = /** @class */ (function () {
             this.answer *= value;
         }
         if (this.previousSymbol == '/') {
+            if (this.answer == 0 && value == 0) {
+                this.answer = Infinity;
+                return;
+            }
             this.answer /= value;
         }
+        this.answer = parseFloat(this.answer.toPrecision(8));
     };
-    Calc.prototype.moreThanOneOperator = function (operation) {
-        if (this.screenValue == '') {
-            if (operation == '=' || operation == 'Enter') {
-                return false;
-            }
-            this.previousSymbol = operation;
-            this.setAnswerScreen();
+    Calc.prototype.restrictCalculation = function (operation) {
+        if (this.endOfcalculation) {
             return true;
+        }
+        if (operation == '=' && this.step == 'enter first number') {
+            return true;
+        }
+        if (this.screenValue == '') {
+            if (operation == '=') {
+                this.runEquals();
+                return true;
+            }
+            else {
+                this.previousSymbol = operation;
+                this.setAnswerScreen();
+                return true;
+            }
         }
     };
     Calc.prototype.calculate = function (operation) {
-        if (this.moreThanOneOperator(operation)) {
-            console.log('more.ans ' + this.answer);
-            if (operation == '=' || operation == 'Enter') {
-                console.log('eq .ans ' + this.answer);
-                this.runEquals();
-            }
+        if (this.restrictCalculation(operation)) {
             return;
         }
         if (this.step == 'enter first number') {
@@ -111,18 +114,22 @@ var Calc = /** @class */ (function () {
             this.previousSymbol = operation;
             this.step = 'enter next number';
             this.clearScreenForNextNum();
+            return;
         }
-        else if (this.step == 'enter next number') {
-            console.log('nxt .ans ' + this.answer);
+        if (operation == '=') {
             this.runOperation();
+            this.runEquals();
+            return;
+        }
+        if (this.step == 'enter next number') {
+            this.runOperation();
+            if (!isFinite(this.answer)) {
+                this.runEquals();
+                return;
+            }
             this.previousSymbol = operation;
             this.clearScreenForNextNum();
         }
-        if (operation == '=' || operation == 'Enter') {
-            console.log('eq2 ans ' + this.answer);
-            this.runEquals();
-        }
-        console.log('end ans ' + this.answer);
     };
     Calc.prototype.runEquals = function () {
         if (this.step == 'enter next number') {
@@ -134,11 +141,9 @@ var Calc = /** @class */ (function () {
     Calc.prototype.runFunction = function (functions) {
         if (functions == 'Delete') {
             this.clearAll();
-            return;
         }
         if (functions == 'Backspace') {
             this.clearEntry();
-            return;
         }
     };
     Calc.prototype.clearEntry = function () {
@@ -150,6 +155,7 @@ var Calc = /** @class */ (function () {
         this.step = 'enter first number';
         this.previousSymbol = '';
         this.answer = 0;
+        this.endOfcalculation = true;
         this.clearEntry();
         this.setAnswerScreen(' ');
     };

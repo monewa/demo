@@ -38,26 +38,28 @@ background-color:white;
 
 div.calc{background-color:rgb(5%, 2%, 10%);
 font-size:24px;
-width:300px;
+width:380px;
 padding:12px;
 position:relative;
-left:100px;
-top:80px;
+left:90px;
+top:70px;
 /* text-align:center; */
 }
 
-div.converter{background-color:black; /* white; */
-color:pink;
-/* width:35%; */
-left:60px;
+div.converter{background-color:lightgray; 
+color:black;
+height:400px;
+width:60%;
+left:40px;
+top:20px;
 }
 
 div.numpad{padding:13px;	
 }
 
 button{ background-color:lightblue;
-width:55px;
-font-size:30px;
+width:75px;
+font-size:40px;
 margin-bottom:-3px;
 margin-left:-12px;
 }
@@ -70,7 +72,6 @@ height:35px;
 margin-left:-12px;
 font-size:16px;
 /* margin-bottom:-2px; */
-	
 }
 
 button.clear{
@@ -89,12 +90,17 @@ width:305px;
 
 }
 
-textarea{font-size:30px;
+input{font-size:30px;
 	background-color:rgb(5%, 2%, 10%);
 	border:solid white;
 	color:white;
-	width:250px;
+	width:270px;
 	text-align:right;
+}
+
+input.converter{ background-color:white;
+	color:black;
+	
 }
 
 img.home{ 

@@ -7,7 +7,7 @@
 	<title>Converter App</title>
 </head>
 
-<body id='body'>
+<body onkeyup='c.getKeyValues()' id='body'>
 <h1>Converter</h1>
 <nav>
 	<ul>
@@ -19,15 +19,33 @@
 <div class='calc converter' >
 	Converter<br><br>
 	<label id='answerDisplay'></label><br>
-	<textarea id='display' placeholder='select first unit'></textarea><br>
+	<input id='display' placeholder='select first unit' 
+	class= 'converter' readonly><br>
 	
+	<div class='numpad'>
 	<button onclick='c.clearAll()' class='unit clear'>reset</button>
 	<button onclick='c.clearDisplay()' class='unit clear'>clear</button><br>
+	
 	<button onclick='c.run("cm")' class='unit operator'>cm</button>
-	<button onclick='c.run("m")' class='unit operator'>meter</button>
-	<button onclick='c.run("convert")' class='unit operator'>convert</button><br>
+	<button onclick='c.run("m")' class='unit operator'>metres</button>
+	<button onclick='c.run("convert")' 
+			      class='unit operator' id='converter'>convert
+	</button><br>
+	
 	<button onclick='c.getNumberInput("1")'>1</button>
-	<!-- <button onclick='c.'></button> -->
+	<button onclick='c.getNumberInput("2")'>2</button>
+	<button onclick='c.getNumberInput("3")'>3</button><br>
+	
+	<button onclick='c.getNumberInput("4")'>4</button>
+	<button onclick='c.getNumberInput("5")'>5</button>
+	<button onclick='c.getNumberInput("6")'>6</button><br>
+	
+	<button onclick='c.getNumberInput("7")'>7</button>
+	<button onclick='c.getNumberInput("8")'>8</button>
+	<button onclick='c.getNumberInput("9")'>9</button><br>
+	
+	<button onclick='c.getNumberInput("0")'>0</button>
+	<button onclick='c.getNumberInput(".")'>.</button>
 </div>
 	
 
