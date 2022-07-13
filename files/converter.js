@@ -4,14 +4,21 @@ var Converter = /** @class */ (function () {
         this.answerDisplayMesseage = '';
         this.unit1 = '';
         this.unit2 = '';
+        this.unitType = '';
         this.steps = 'select first unit';
-        //steps:string= 'type a value';
         this.result = 0;
-        this.validNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
-        this.validValues = ['Delete', 'Backspace', '=', 'c', 'm'];
+        this.validValues = ['Delete', 'Backspace', '=', 'c', 'm', 'f', 'l'];
         this.periodIsFound = false;
+        this.negativeIsFound = false;
     }
     Converter.prototype.restrictNumberInput = function (num) {
+        if (num == '-' && this.negativeIsFound) {
+            return true;
+        }
+        if (num == '-' && !this.negativeIsFound) {
+            this.displayValue = '-' + this.displayValue;
+            this.negativeIsFound = true;
+        }
         if (this.displayValue == '0' && num == '0') {
             return true;
         }
@@ -54,14 +61,19 @@ var Converter = /** @class */ (function () {
         if (val == 'm') {
             this.run('m');
         }
+        if (val == 'f') {
+            this.run('F');
+        }
+        if (val == 'l') {
+            this.run('C');
+        }
     };
     Converter.prototype.filterKeyValues = function (key) {
         var _this = this;
-        this.validNumbers.forEach(function (n) {
-            if (n == key) {
-                _this.getNumberInput(key);
-            }
-        });
+        var val = parseFloat(key);
+        if (isFinite(val) || key == '.') {
+            this.getNumberInput(key);
+        }
         this.validValues.forEach(function (v) {
             if (v == key) {
                 _this.getValues(key);
@@ -75,15 +87,34 @@ var Converter = /** @class */ (function () {
             _this.filterKeyValues(key);
         };
     };
+    Converter.prototype.restrictUnits = function () {
+        if (this.unit2 == 'cm' || this.unit2 == 'm') {
+            if (this.unitType == 'temperature') {
+                return true;
+            }
+        }
+        if (this.unit2 == 'F' || this.unit2 == 'C') {
+            if (this.unitType == 'length') {
+                return true;
+            }
+        }
+        if (this.unit1 == this.unit2) {
+            return true;
+        }
+    };
     Converter.prototype.restrictRun = function (unit) {
-        console.log('restrictRun' + unit);
         if (unit == 'convert') {
             if (this.displayValue == '' || this.steps != 'type a value') {
                 return true;
             }
         }
-        if (this.unit1 == unit) {
-            return true;
+    };
+    Converter.prototype.updateUnitType = function () {
+        if (this.unit1 == 'cm' || this.unit1 == 'm') {
+            this.unitType = 'length';
+        }
+        if (this.unit1 == 'C' || this.unit1 == 'F') {
+            this.unitType = 'temperature';
         }
     };
     Converter.prototype.run = function (unit) {
@@ -92,6 +123,7 @@ var Converter = /** @class */ (function () {
         }
         if (this.steps == 'select first unit') {
             this.unit1 = unit;
+            this.updateUnitType();
             this.steps = 'select 2nd unit';
             this.answerDisplayMesseage = this.unit1 + ' selected';
             this.clearDisplayForNextStep();
@@ -99,6 +131,9 @@ var Converter = /** @class */ (function () {
         }
         if (this.steps == 'select 2nd unit') {
             this.unit2 = unit;
+            if (this.restrictUnits()) {
+                return;
+            }
             this.steps = 'type a value';
             this.answerDisplayMesseage = 'convert ' + this.unit1 + ' to ' + this.unit2;
             this.clearDisplayForNextStep();
@@ -116,12 +151,18 @@ var Converter = /** @class */ (function () {
         if (this.unit1 == 'm' && this.unit2 == 'cm') {
             this.result = num * 100;
         }
+        if (this.unit1 == 'F' && this.unit2 == 'C') {
+            this.result = (num * 0.55556) - 17.778;
+        }
+        if (this.unit1 == 'C' && this.unit2 == 'F') {
+            this.result = 32 + (num * 1.8);
+        }
         this.result = parseFloat(this.result.toPrecision(4));
     };
     Converter.prototype.convert = function () {
         this.doConversion();
         var result = this.result + this.unit2;
-        this.clearAll();
+        this.clearDisplay();
         this.setDisplay(result);
     };
     Converter.prototype.clearDisplayForNextStep = function () {
@@ -132,6 +173,7 @@ var Converter = /** @class */ (function () {
     Converter.prototype.clearDisplay = function () {
         this.displayValue = '';
         this.periodIsFound = false;
+        this.negativeIsFound = false;
         this.setDisplay();
     };
     Converter.prototype.clearAll = function () {
@@ -147,7 +189,7 @@ var Converter = /** @class */ (function () {
     };
     Converter.prototype.setAnswerDisplay = function (value) {
         if (value === void 0) { value = this.answerDisplayMesseage; }
-        document.getElementById('answerDisplay').innerHTML = value + '';
+        document.getElementById('answerDisplay').innerText = value + '';
     };
     Converter.prototype.setDisplay = function (value) {
         if (value === void 0) { value = this.displayValue; }

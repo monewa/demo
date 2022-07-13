@@ -1,0 +1,63 @@
+<html>
+
+<head>
+	<title>Mail List</title>
+	<link href='style.css' rel='stylesheet'></link>
+	<script  src='static-data.js'></script>
+	<script  src='Mail-List.js'></script>
+</head>
+
+<body onload='m.preventForm();'>
+<nav>
+	<ul>
+		<a href='../index.html'>Home</a>
+		<a href='converter.html'> Converter</a>
+		<a href='calculator-app.html'>Calculator</a>	
+		<a href='Mail-List-data.html'>Data</a>	
+	</ul>
+</nav>
+
+<h1>Mail List app</h1>
+
+<img src='../img/image.jpg'><br><br>
+<p>Welcome to the mail list app. <br>
+Save your details on the form to be part of our mail list for the book.</p>
+<!--  -->
+<div class= 'form' >
+	<form id='form'  >
+		<b>User Form</b><br><br>
+		
+		<span class='form' >First name</span>
+		<input onchange= 'm.checkFormValidity("name")' required maxlength='15' 
+					id='name' class='form'  placeholder='first name'> <br><br>
+		
+		<label class='form' >Last name</label>
+		<input onchange= 'm.checkFormValidity("lastName")' required maxlength='15' 
+					id='lastName' class='form' placeholder='last name'  ><br><br>
+		
+		<label class='form' >Country</label>
+		<input onchange= 'm.checkFormValidity("country")'  required maxlength='15'
+					id='country' class='form' placeholder= 'country'  ><br><br>
+		
+		<label class='form' >Email</label>
+		<input onchange= 'm.checkFormValidity("email")'  required maxlength= '25'  
+					type='email' id= 'email' class= 'form' placeholder= 'email' ><br><br>
+		
+		<label class='form' >Code</label>
+		<input onchange= 'm.checkFormValidity("code")' required type='number' 
+					min='1000' max='9999' id='code' class='form code' placeholder='1208'   />
+		<label class='form ' >Phone </label>
+		<input onchange= 'm.checkFormValidity("phone")' required type='number' 
+					min='1000000' max='9999999'  id='phone' class='form phone' 
+					placeholder='8621897' title= 'please include your international code'> <br><br>		
+		<label class='form' >Comments</label><br>
+		<textarea  id='comments' class='form' placeholder='comment' maxlength='50'></textarea><br>
+	
+		<label  id='message' ></label><br><br>
+		
+		<button onclick='m.saveForm()'  type='submit'  class='form'>save</button>
+	</form>
+</div>
+</body>
+
+</html>

@@ -5,10 +5,9 @@ class Calc{
 	step:string= 'enter first number';
 	answer:number= 0;
 	screenValue:string= '';
-	previousSymbol:string='';
+	previousSymbol:string= '';
 	periodIsPressed:boolean= false;
 	endOfcalculation:boolean= true;
-	acceptedValues:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
 	acceptedOperators:string[]= ['+', '-', '*', '/', '='];
 	acceptedFunctions:string[]= ['Delete', 'Backspace'];
 	
@@ -42,11 +41,10 @@ class Calc{
 	}
 	
 	validateKeyboardInput(key:string):void{
-		this.acceptedValues.forEach((v:string)=> {
-			if(v==key){
+		let val= parseFloat(key)
+		if( isFinite(val) || key== '.'){
 				this.setValue(key);
-			}
-		})
+		} 	
 		this.acceptedOperators.forEach(
 			(o:string)=> {
 				if(o==key){
@@ -62,7 +60,7 @@ class Calc{
 	}
 	
 	setKeyInput():void{
-		document.onkeyup= (keyEvent:KeyboardEvent)=>{
+		document.onkeyup= (keyEvent:KeyboardEvent)=> {
 			let key= keyEvent.key;
 			this.validateKeyboardInput(key);
 		}
@@ -103,7 +101,7 @@ class Calc{
 		}
 		if(this.screenValue== ''){
 			if(operation== '='){
-				this.runEquals() ;
+				this.runEquals();
 				return true;
 			}  
 			else{ 
@@ -173,12 +171,12 @@ class Calc{
 		this.setAnswerScreen(' ');
 	}
 	
-	setMainScreen(value:number|string=this.screenValue):void{
+	setMainScreen(value:number|string= this.screenValue):void{
 		(<HTMLInputElement> document.getElementById('screen')).value=value+'';
 	}
 	
-	setAnswerScreen(value:string|number=this.answer):void{
-		document.getElementById('answer').innerHTML=value+' '+this.previousSymbol;
+	setAnswerScreen(value:string|number= this.answer):void{
+		document.getElementById('answer').innerText=value+' '+this.previousSymbol;
 	}
 }
 

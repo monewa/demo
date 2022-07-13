@@ -6,7 +6,6 @@ var Calc = /** @class */ (function () {
         this.previousSymbol = '';
         this.periodIsPressed = false;
         this.endOfcalculation = true;
-        this.acceptedValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
         this.acceptedOperators = ['+', '-', '*', '/', '='];
         this.acceptedFunctions = ['Delete', 'Backspace'];
     }
@@ -39,11 +38,10 @@ var Calc = /** @class */ (function () {
     };
     Calc.prototype.validateKeyboardInput = function (key) {
         var _this = this;
-        this.acceptedValues.forEach(function (v) {
-            if (v == key) {
-                _this.setValue(key);
-            }
-        });
+        var val = parseFloat(key);
+        if (isFinite(val) || key == '.') {
+            this.setValue(key);
+        }
         this.acceptedOperators.forEach(function (o) {
             if (o == key) {
                 _this.calculate(key);
@@ -165,7 +163,7 @@ var Calc = /** @class */ (function () {
     };
     Calc.prototype.setAnswerScreen = function (value) {
         if (value === void 0) { value = this.answer; }
-        document.getElementById('answer').innerHTML = value + ' ' + this.previousSymbol;
+        document.getElementById('answer').innerText = value + ' ' + this.previousSymbol;
     };
     return Calc;
 }());

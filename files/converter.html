@@ -8,29 +8,33 @@
 </head>
 
 <body onkeyup='c.getKeyValues()' id='body'>
-<h1>Converter</h1>
 <nav>
 	<ul>
 		<a href='../index.html'>Home</a>
-		<a href='calculator-app.html'>See Calculator app</a>		
+		<a href='calculator-app.html'>Calculator</a>	
+		<a href='Mail-List.html'> Mail List</a>		
 	</ul>
 </nav>
 
+<h1>Converter App</h1>
 <div class='calc converter' >
-	Converter<br><br>
+
+	<span style='background-color:white'><b>Converter</b></span><br>
 	<label id='answerDisplay'></label><br>
 	<input id='display' placeholder='select first unit' 
-	class= 'converter' readonly><br>
+	class= 'converter' readonly>
 	
 	<div class='numpad'>
 	<button onclick='c.clearAll()' class='unit clear'>reset</button>
 	<button onclick='c.clearDisplay()' class='unit clear'>clear</button><br>
 	
 	<button onclick='c.run("cm")' class='unit operator'>cm</button>
-	<button onclick='c.run("m")' class='unit operator'>metres</button>
-	<button onclick='c.run("convert")' 
+	<button onclick='c.run("m")' class='unit operator'>metres</button><br>
+	<button onclick='c.run("C")' class='unit operator'>celcuis</button>
+	<button onclick='c.run("F")' class='unit operator'>fahrenheit</button>
+ 	<button onclick='c.run("convert")' 
 			      class='unit operator' id='converter'>convert
-	</button><br>
+	</button><br> 
 	
 	<button onclick='c.getNumberInput("1")'>1</button>
 	<button onclick='c.getNumberInput("2")'>2</button>
@@ -44,7 +48,7 @@
 	<button onclick='c.getNumberInput("8")'>8</button>
 	<button onclick='c.getNumberInput("9")'>9</button><br>
 	
-	<button onclick='c.getNumberInput("0")'>0</button>
+	<button onclick='c.getNumberInput("0")' class='wide'>0</button>
 	<button onclick='c.getNumberInput(".")'>.</button>
 </div>
 	

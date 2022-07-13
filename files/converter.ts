@@ -2,31 +2,39 @@
 class Converter{
 	constructor(){	}
 	
-	displayValue:string='';
+	displayValue:string= '';
 	answerDisplayMesseage:string= '';
 	unit1:string= '';
 	unit2:string= '';
+	unitType:string= '';
 	steps:string= 'select first unit';
-	//steps:string= 'type a value';
 	result:number= 0;
-	validNumbers:string[]= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
-	validValues:string[]= ['Delete', 'Backspace', '=', 'c', 'm'];
-	periodIsFound:boolean= false
+	validValues:string[]= ['Delete', 'Backspace', '=', 'c', 'm', 'f', 'l'];
+	periodIsFound:boolean= false;
+	negativeIsFound:boolean= false;
 	
 	restrictNumberInput(num:string):boolean{
+		if(num=='-' && this.negativeIsFound){
+			return true;
+		}
+		if(num== '-' && !this.negativeIsFound){
+			this.displayValue= '-'+this.displayValue;
+			this.negativeIsFound= true;
+		}
+		
 		if(this.displayValue== '0' && num== '0'){
 			return true;
 		}
 		if(this.periodIsFound && num== '.'){
 			return true;
 		}
-		if(num== '.'&& !this.periodIsFound){
+		if(num== '.' && !this.periodIsFound){
 			this.periodIsFound= true;
 		}
 		if(this.steps!= 'type a value'){
-			return true
+			return true;
 		}
-		if(this.displayValue.length>=15){
+		if(this.displayValue.length >= 15){
 			return true;
 		}
 	}
@@ -37,7 +45,7 @@ class Converter{
 		}
 		this.displayValue+=num;
 		if(this.displayValue=='.'){
-			this.displayValue= '0.'
+			this.displayValue= '0.';
 		}
 		this.setDisplay();
 	}
@@ -53,20 +61,26 @@ class Converter{
 			this.run('convert');
 		}
 		if(val=='c'){
-			this.run('cm')
+			this.run('cm');
 		}
 		if(val=='m'){
-			this.run('m')
+			this.run('m');
+		}
+		if(val=='f'){
+			this.run('F');
+		}
+		if(val=='l'){
+			this.run('C');
 		}
 	}
 	
 	filterKeyValues(key:string):void{
-		this.validNumbers.forEach((n:string)=>{
-			if(n==key){
-				this.getNumberInput(key);
-			}
-		})
-		this.validValues.forEach((v:string)=>{
+		let val= parseFloat(key)
+		if(isFinite(val) || key== '.'){
+			this.getNumberInput(key);
+		} 	
+		this.validValues.forEach(
+		(v:string)=> {
 			if(v==key){
 				this.getValues(key);
 			}
@@ -80,15 +94,36 @@ class Converter{
 		}
 	}
 	
+	restrictUnits():boolean{
+		if(this.unit2== 'cm' || this.unit2== 'm'){
+			if(this.unitType== 'temperature'){
+				return true;
+			}
+		}
+		if(this.unit2== 'F' || this.unit2== 'C'){
+			if(this.unitType== 'length'){
+				return true;
+			}
+		} 
+		if(this.unit1== this.unit2){
+			return true;
+		}
+	}
+	
 	restrictRun(unit:string):boolean{
-			console.log('restrictRun'+ unit)
 		if(unit=='convert'){
 			if(this.displayValue== '' || this.steps != 'type a value'){
 				return true;
 			}
 		}
-		if(this.unit1== unit){
-			return true;
+	}
+	
+	updateUnitType():void{
+		if(this.unit1=='cm' ||this.unit1=='m'){
+			this.unitType= 'length';
+		}
+		if(this.unit1=='C' ||this.unit1=='F'){
+			this.unitType= 'temperature';
 		}
 	}
 	
@@ -98,6 +133,7 @@ class Converter{
 		}
 		if(this.steps=='select first unit'){
 			this.unit1=unit;
+			this.updateUnitType();
 			this.steps= 'select 2nd unit';
 			this.answerDisplayMesseage= this.unit1+ ' selected';
 			this.clearDisplayForNextStep();
@@ -105,6 +141,9 @@ class Converter{
 		}
 		if(this.steps== 'select 2nd unit'){
 			this.unit2=unit;
+			if(this.restrictUnits()){
+				return;
+			}
 			this.steps= 'type a value';
 			this.answerDisplayMesseage='convert '+this.unit1 + ' to '+ this.unit2;
 			this.clearDisplayForNextStep();
@@ -123,13 +162,20 @@ class Converter{
 		if(this.unit1=='m' && this.unit2== 'cm'){
 			this.result= num*100;
 		}
+		
+		if(this.unit1=='F' && this.unit2== 'C'){
+			this.result= (num*0.55556)-17.778;
+		}
+		if(this.unit1== 'C' && this.unit2== 'F'){
+			this.result= 32+(num*1.8);
+		}
 		this.result= parseFloat(this.result.toPrecision(4));
 	}
 	
 	convert():void{
 		this.doConversion();
 		let result= this.result+this.unit2;
-		this.clearAll();
+		this.clearDisplay();
 		this.setDisplay(result);
 	}
 	
@@ -140,32 +186,33 @@ class Converter{
 	}
 	
 	clearDisplay():void{
-		this.displayValue='';
-		this.periodIsFound=false;
+		this.displayValue= '';
+		this.periodIsFound= false;
+		this.negativeIsFound= false;
 		this.setDisplay();
 	}
 	
 	clearAll():void{
 		this.steps= 'select first unit';
 		this.unit1= '';
-		this.unit2= ''
+		this.unit2= '';
 		this.result= 0;
-		this.displayValue='';
-		this.answerDisplayMesseage='';
+		this.displayValue= '';
+		this.answerDisplayMesseage= '';
 		this.setAnswerDisplay();
 		this.setDisplay();
 		this.setDisplayPlaceholder();
 	}
 	
-	setAnswerDisplay(value:number|string=this.answerDisplayMesseage):void{
-		document.getElementById('answerDisplay').innerHTML= value+'';
+	setAnswerDisplay(value:number|string= this.answerDisplayMesseage):void{
+		document.getElementById('answerDisplay').innerText= value+'';
 	}
 
-	setDisplay(value:number|string=this.displayValue):void{
+	setDisplay(value:number|string= this.displayValue):void{
 		(<HTMLInputElement>document.getElementById('display')).value= value+'';
 	}
 	
-	setDisplayPlaceholder(value:number|string=this.steps):void{
+	setDisplayPlaceholder(value:number|string= this.steps):void{
 		(<HTMLInputElement>document.getElementById('display')).placeholder= value+'';
 	}
 	  

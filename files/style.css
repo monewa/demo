@@ -5,6 +5,8 @@ html{
 h1{background-color:black;
 	padding:10px;
 	color:red;
+	width:450px;
+	text-align:center;
 }
 
 nav{
@@ -32,11 +34,11 @@ background-color:black;
 padding:12px;
 }
 
-a:hover{color:black;
+a:hover{ color:black;
 background-color:white;
 }
 
-div.calc{background-color:rgb(5%, 2%, 10%);
+div.calc{ background-color:rgb(5%, 2%, 10%);
 font-size:24px;
 width:380px;
 padding:12px;
@@ -46,15 +48,28 @@ top:70px;
 /* text-align:center; */
 }
 
-div.converter{background-color:lightgray; 
+div.converter{ background-color:lightgray; 
 color:black;
-height:400px;
-width:60%;
+height:405px;
+width:640px;
 left:40px;
 top:20px;
 }
 
-div.numpad{padding:13px;	
+div.numpad{  padding:13px 0px 0px 13px; 	
+}
+
+div.form{ background-color:black;	
+/* height:750px;*/
+width:480px; 
+font-size:22px;
+padding:25px;
+}
+
+button.form{ width:175px;
+font-size:30px;
+position:relative;
+left:30px;	
 }
 
 button{ background-color:lightblue;
@@ -64,49 +79,98 @@ margin-bottom:-3px;
 margin-left:-12px;
 }
 
-button.operator{background-color:rgb(70%, 60%, 80%);
+button.operator{ background-color:rgb(70%, 60%, 80%);
 }
 
-button.unit{width:25%;
+button.unit{ width:22%;
 height:35px;
-margin-left:-12px;
-font-size:16px;
-/* margin-bottom:-2px; */
+font-size:26px;
 }
 
-button.clear{
-background-color:rgb(100%, 60%, 60%);
+button.clear{ background-color:rgb(100%, 60%, 60%);
 }
 
 button:hover{background-color:lightyellow;
 }
 
-button:active{background-color:orange;	
+button:active{ background-color:orange;	
 }
 
-label#answer{color:yellow;
+button#del{ width:32px;
+	background-color:red;
+	color:white;
+	font-size:16px;
+	margin-bottom:0px;
+	margin-left:0px;
+}
+
+button#del:hover{ opacity:.7;	
+}
+
+button#del:active{ background-color:maroon;	
+}
+
+button.edit{ width:45px;
+/* 	background-color:red;
+	color:white; */
+	font-size:14px;
+	margin-bottom:0px;
+	margin-left:0px;
+}
+
+label#answer{ color:yellow;
 font-size:24px;
 width:305px;
 
 }
 
-input{font-size:30px;
+label#datamessage{	background-color:black;
+	padding:3px;
+	color:lightblue;
+	text-align:center;	
+}
+
+label#message{	color:red;
+}
+
+input, textarea{ font-size:30px;
 	background-color:rgb(5%, 2%, 10%);
 	border:solid white;
 	color:white;
 	width:270px;
-	text-align:right;
+	
 }
 
 input.converter{ background-color:white;
 	color:black;
+	text-align:right;
 	
+}
+
+input#screen{ text-align:right;	
+}
+
+input.form,  textarea{ font-size:22px;
+}
+
+input.code{ width:90px;
+}
+
+input.phone{ width:120px;
+}
+
+label.form, span.form{ width:90px;
+	color:yellow;
+	width:80px;	
+}
+
+input.editUser{	font-size:16px;
 }
 
 img.home{ 
 }
 
-table{background-color:black;
+table.home{ background-color:black;
 	position:fixed;
 	top:400px;	
 	border-spacing:10px;
@@ -115,32 +179,40 @@ table{background-color:black;
 	padding:8px;
 }
 
-td{height:50px;
+td.home{ height:50px;
 width:125px;
 }
 
-td.typescript{
-color:yellow;
+td.typescript{ color:yellow;
 border:solid yellow 4px;
 box-shadow:0px 0px 13px yellow
 }
 
-td.html{
-border:solid red 4px;
+td.html{ border:solid red 4px;
 box-shadow:0px 0px 13px red;
 color:red;
 }
 
-td.css{
-border:solid lime 4px;
+td.css{ border:solid lime 4px;
 box-shadow:0px 0px 13px lime;
 color:lime;
 }
 
-td.java{
-border:solid white 4px;
+td.java{ border:solid white 4px;
 box-shadow:0px 0px 13px white;
 color:white;
+}
+
+ thead{ background-color:black;
+font-size:16px;
+text-align:center;
+}
+
+/**/ th{ padding:8px;
+} 
+
+td{ padding:8px;
+	background-color:black;
 }
 
 

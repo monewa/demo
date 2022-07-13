@@ -7,17 +7,18 @@
 </head>
 
 <body onkeyup='c.setKeyInput()'>
-<h1>My Calculator App</h1>
-<p id='console'> </p>
 <nav>
 	<ul>
 		<a href='../index.html'>Home</a>
-		<a href='converter.html'> see Converter app</a>
+		<a href='converter.html'> Converter</a>
+		<a href='Mail-List.html'> Mail List</a>
 	</ul>
 </nav>
 
+<h1>My Calculator App</h1>
+
 <div class='calc'>
-	Calculator<br><br>
+	<b>Calculator</b><br><br>
 	<label id='answer' ></label><br>
 	<input id='screen' placeholder='0' readonly><br>
 	<div class='numpad'>
@@ -39,7 +40,7 @@
 		<button onclick='c.calculate("*")' class='operator'>x</button>	
 		<button onclick='c.calculate("/")' class='operator'>/</button><br>
 		
-		<button onclick='c.setValue("0")'>0</button>
+		<button onclick='c.setValue("0")' class='wide'>0</button>
 		<button onclick='c.setValue(".")'>.</button>
 		<button onclick='c.calculate("=")' class='operator'>=</button><br>
 	</div>

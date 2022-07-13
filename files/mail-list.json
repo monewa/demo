@@ -1,0 +1,2 @@
+
+[{"id":1,"firstName":"John","lastName":"Smith","country":"USA","email":"smith@gmail.com","address":"@home","phone":"567 543 3433","comments":"great"},{"id":2,"firstName":"Thoho","lastName":"Yandou","country":"RSA","email":"thoho@gmail.com","address":"@city","phone":"270 343 3670","comments":"like it"},{"id":3,"firstName":"Mary","lastName":"Ann","country":"UK","email":"mary@gmail.com","address":"@town","phone":"567 214 5697","comments":"love it"}]
