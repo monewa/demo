@@ -1,0 +1,7 @@
+
+div:hover{ box-shadow:0px 0px 19px grey }
+
+button:hover{ border:grey solid 2px; box-shadow: 0px 0px 19px white }
+button:active{ background-color:gray;  color:white}
+
+label.redFont{color: red}

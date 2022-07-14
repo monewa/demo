@@ -1,0 +1,37 @@
+<div >
+	<h3>Contacts
+		<h5>You have {{contacts.list.length}} contacts</h5>
+	 </h3>  
+	 - {{listDetails}} -
+<!-- <label *counter='let c in list'>list {{c}}</label> -->
+	<div class='container'>
+		<div>
+			<button (click)='contacts.show_NewContact()'
+				[hidden]='!contacts.newContactIsHidden' >New contact</button>
+				<br>
+			<span [hidden]='contacts.newContactIsHidden'>
+				<input placeholder='name'  #name /><br>
+				<input placeholder='number' #number /><br>
+					<!--	(change)='contacts.create(name.value, number.value); 
+						name.value= contacts.name ; 
+												number.value=contacts.contactNo ;'--> 
+				<button (click)='contacts.create(name.value, number.value); 
+											name.value= contacts.name; 
+											number.value=contacts.contactNo;' >
+											Save</button>
+				<button (click)='contacts.close_NewContact()'>Cancel</button><br>
+				<label [ngClass]='{"error":contacts.showWarning}' class='output' >	
+							{{contacts.output}} </label>
+			</span>
+		</div>
+	
+		<div>
+			<ul *ngFor='let contact of contacts.list; let i=index' 
+				  [class.active]='contact.isSelected' > 
+				<input [(ngModel)]='contact.isSelected' type='checkbox' />	{{contact.name}} 
+				<button (click)='contacts.remove(i)' class='delete'> <b> X</b> </button>	 
+			</ul><br>
+		</div>
+	</div>
+</div>
+

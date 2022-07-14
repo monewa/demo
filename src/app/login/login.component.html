@@ -1,0 +1,48 @@
+
+<!-- <form  #form='ngForm' novalidate *ngIf='!verified'
+			(ngSubmit)='submitForm(form)'> -->
+<div *ngIf='!verified' #form>
+	<h3>Login form</h3>
+	{{getJSON()}} 
+	<div  >
+		<input #username='ngModel' placeholder="username"  
+					[(ngModel)]= "inputUsername" required>
+		<label *ngIf='submitted && username.invalid' class='error'>
+			add username </label>
+	</div>
+	<div  class='form-group'>
+		<input  #password='ngModel' placeholder="password" 
+					  [(ngModel)]= "inputPassword" required>
+		<label *ngIf='submitted && password.invalid' class='error'>
+			add password </label><br>
+		<button (click)= "verify()" class='small'>Login </button><br><br>
+	</div>
+	<label *ngIf='submitted &&password.valid && username.valid ; ' class='error'
+				>Login unsuccessful</label><br>
+</div>
+<!--</form>-->
+<div *ngIf='verified' [ngSwitch]= 'view'>
+ <button (click)='switchView("profile")' 
+				[disabled]='view=="editProfile"'>Edit profile</button>
+ <button (click)='switchView("blog")'
+				[disabled]='view=="createBlog"'>Create blog</button>
+<button (click)='logOff()'
+				[hidden]='!verified'	>Log off</button> <br>
+
+<div *ngSwitchCase='"welcome"'>
+	<h3>Login successful</h3>
+	<b>Welcome back to your profile</b><br><br>
+	What do you want to do?<br>
+</div>
+	
+<div *ngSwitchCase='"profile"'>
+	<h3>Edit Profile</h3>
+	<input placeholder='edit name'><br>
+</div>
+	 
+<div *ngSwitchCase='"blog"'>
+	<h3>Create a blog</h3>
+	<textarea placeholder='start blog'></textarea>
+</div>
+	 
+</div>

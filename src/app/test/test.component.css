@@ -1,0 +1,31 @@
+
+button.btn.hover{
+background-color:red;	
+	
+}
+
+.active{ color:orange; 
+font-weight:bold;
+}
+
+.odd{
+	color:lightblue
+}
+
+.even{
+	color:hotpink
+}
+
+col, tr, table{
+border: green solid
+	
+}
+
+ul{background-color:rgb(15%, 5%, 35%); 
+margin-top:1%; 
+margin-bottom:1%;
+width:30%;
+height:8%;
+display:flex;
+flex:1;
+}

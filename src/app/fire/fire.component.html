@@ -1,0 +1,41 @@
+
+<div *ngIf='view=="welcome"' >
+	<h3>Welcome to Fireworld</h3> 
+	<button  (click)='switchView("start")' class='small'>Start game</button>
+</div>
+
+<div *ngIf='view=="start"'>
+	<h3> Let the games begin </h3> 
+	<button (click)='switchView("burn")' class='small' >
+	Start Fire</button>
+</div>
+	
+<div *ngIf='view=="burn"' [ngClass]='{"fireApp": view=="burn"}'  >
+	<h3> Feel the burn</h3>
+	<button (click)='switchView("start")' class='small' >Stop Fire</button>
+	<button (click)='shootFireball()'>play with fire</button>
+	<br>
+	
+	<span *ngIf='!shotsFired'>
+		<!-- <div class='fireball1' >
+			<div  class='fireball2'></div>	
+		</div> -->
+		<label id='fire' >take a shot</label>
+	</span>
+	
+	<span *ngIf='shotsFired'>
+		<div  class='shootFireball' >
+			<div  class='fireball2'></div>
+		</div>
+		<label id='fire' >shots fired</label>		
+	</span>
+	
+	<div  class='explosion' [hidden]='true'>
+		<div  class='explosion2'></div>	
+	</div>
+	
+	
+	
+</div>
+
+		

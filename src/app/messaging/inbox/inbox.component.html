@@ -1,0 +1,13 @@
+<!-- -->
+	<h3>Inbox
+		<h5>you have {{inbox.list.length}} messages</h5>
+	</h3>
+	<label>{{inbox.output}}</label><br>
+		
+	<ul *ngFor='let message of inbox.list; let i=index'  
+		  [class.active]='message.isSelected'> 
+		<input [(ngModel)]='message.isSelected' type='checkbox' />	{{message}} 
+		<button (click)='inbox.remove(i)' class='delete' >x</button>
+	</ul> 
+
+

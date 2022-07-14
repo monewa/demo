@@ -1,0 +1,24 @@
+
+<div *ngIf='view=="welcome"'>
+	<h3 >Welcome to waterworld</h3>
+	<button class='small' (click)='switchView("play")'>Start game</button>
+</div>
+	
+<div *ngIf='view=="play"'>
+	<h3 >Let's begin</h3>
+	<button (click)='switchView("rain")' class='small' >Start rain</button>
+	<br>
+	<div	class='square'>  </div> 
+</div>
+	
+<div *ngIf='view=="rain"'>
+	<h3>Let it rain</h3>
+	<button (click)='switchView("play")' class='small' >stop rain</button>
+	<button (click)='moveDiv()' class='small' >sail</button>
+	<br>
+	<br>
+	<label class='rain'>. rain .</label>
+		<div [style]='boat' class='boat'>boat</div>
+	<label id='water'>The ocean</label >
+</div>
+

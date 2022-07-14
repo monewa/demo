@@ -1,0 +1,69 @@
+
+<h3>tests</h3>
+
+<div> <h4>Tables</h4>
+	[{{person?.name || 'nobody here'}}] <br>
+	[{{item3}}]<br>
+	[{{inumber}}]<br>
+	<figcaption>Table 1.2 Peoples</figcaption>
+	<table>
+		<th *ngFor='let hd of headings' >{{hd}} </th>
+			<tr *ngFor='let person of people; let last=last; let first=first' 
+				  [class.even]='last' [class.odd]='first'>
+				<td [attr.colspan]='1'> {{person.id}}</td>
+				<td> {{person.name}}</td>
+				<td> {{person.age}}</td>
+			</tr>
+	</table>
+	<label [ngStyle]='getStyle(1)' >{{people[10]?.name || 'none'}}</label><br>
+	
+	<table>
+		<th>Lotto No.</th>
+		<ng-template ngFor let-number [ngForOf]='numbers' let-even='even'>
+			<tr [class.even]='even' [class.odd]='!even'>{{number}} </tr>
+		</ng-template>
+	</table>
+	
+</div>
+
+<div> <h4>Custom Directives</h4>
+<button (click)='runDirective()'>run directive</button>
+</div>
+
+<div> <h4>Promises</h4>
+<button (click)='callAcceptedPromise()'>Resolve promise</button>
+<button (click)='callRejectedPromise()'>Reject promise</button>
+<br>{{promiseTest}}
+</div>
+
+<div> <h4> [value] & [style] binding</h4>
+	<input (change)='saveValue()' [value]='value' placeholder='type here'>{{value}}
+	<p [style]='style' [style.fontSize]='font'>Change my style (font-size:{{font}})</p>
+	<button  (click)='changeStyle()' [class]='class1'>click to change style</button>
+</div>
+
+<div> <h4>Link test</h4>
+<button class='btn-default'  routerLink='/message' routerLinkActive='style'>
+open message</button>
+</div>
+
+<div> <h4>Shop list arrays</h4>
+	<button (click)='eatMeal()' class='btn'
+					[class.hover]='true'	>eat </button><br>
+	{{getTest()}}<br>
+	{{callTest}}<br><br>
+	for(let s in this.shopList):	items:{{getList()}}<br>
+	for(let s of this.shopList):	items:{{getList2()}}<br>
+	
+	select your meal	
+	<select> <option *ngFor='let item of shopList'>{{item}}</option>
+	</select>
+</div>
+
+<ul *ngFor='let s of shopList' >
+	<button>{{s|uppercase}}</button>
+	{{shopList.length | currency}}
+</ul>
+<button *ngFor='let s of shopList; let i=index' 
+				(click)='openPage(i)'>{{i+1}} <button>
+

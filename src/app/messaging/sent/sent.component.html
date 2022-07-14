@@ -1,0 +1,12 @@
+
+	<h3>Sent messages
+		<h5>You have {{sent.list.length}} messages</h5>
+	</h3>
+
+	{{sent.output}}<br>
+	<ul *ngFor='let message of sent.list; let i=index' 
+		  [class.active]='message.isSelected'>
+		<input [(ngModel)]='message.isSelected' type='checkbox'/>	{{message}}
+		<button (click)='sent.remove(i)' class='delete'> <b>X</b> </button>
+	</ul><br> 
+

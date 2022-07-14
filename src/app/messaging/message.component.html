@@ -1,0 +1,24 @@
+
+	<!--			-			-	 		-			-APP MANAGER-			-			-	 		-			-->
+<h2>Messaging App</h2>	<!-- {{num}} -->
+Contact:{{contact1}}<br>
+serverData:{{serverData}}<br>
+deleted:{{contactRep.remove(0)}}
+
+<nav >
+	<li><a  routerLink='/message/drafts' routerLinkActive='active2'>
+				New message </a>
+	</li>
+	<li><a (click)='changeView()' 
+				routerLink='/message/inbox' routerLinkActive='active2'>
+				Inbox({{inbox.list.length}}) </a>
+	</li>
+	<li><a  routerLink='/message/contacts' routerLinkActive='active2'>
+				Contacts({{contacts.list.length}}) </a>
+	</li>
+	<li><a  routerLink='/message/sent' routerLinkActive='active2'>
+				Sent messages({{sent.list.length}}) </a>
+	</li>
+</nav>
+
+<router-outlet name='child'></router-outlet>

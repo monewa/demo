@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">    <meta charset="utf-8">
+<title>Angular apps</title>
+<link rel="stylesheet" href="app.component.css">
+
+<nav class='home'>	
+	<li><a  class='home'  routerLink='/home'  routerLinkActive='active'
+		>Home </a>
+	</li>			
+	<li><a  class='home' routerLink='/message' routerLinkActive='active'  >
+		 Open Message App </a>
+	</li> 
+	<li><a   class='home'	 routerLink='/login'  routerLinkActive='active'
+		 >Open Login form</a>
+	</li> 
+	<li><a  class='home' 	routerLink='/water'  routerLinkActive='active'
+		>Play Waterworld</a>
+	</li> 
+	<li><a class='home' routerLink='/fire'  routerLinkActive='active'
+		>Play FireWorld</a>
+	</li>
+	<li><a   class='home'	routerLink='/test'  routerLinkActive='active'
+		>Tests </a>
+	</li>
+</nav><br>
+
+<app-message *ngIf= 'true'></app-message> 
+<router-outlet></router-outlet>
+
+</html>

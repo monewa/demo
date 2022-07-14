@@ -1,0 +1,56 @@
+<div >
+	<h4>Create Message</h4>
+	
+	<div class='container'>	
+		<div>				<!-- new message-->
+		<label >{{drafts.message| uppercase}} </label><br>
+		
+		<textarea [(ngModel)]="drafts.message"  placeholder="type something" 
+						[required]='true'> </textarea><br>
+		<label [ngClass]='{"error":drafts.showWarning}' class='result'>
+				{{drafts.result}}</label><br>
+
+		<span [hidden]= 'drafts.hideButtons()'>
+			<button (click)='drafts.send()' >Send  </button>
+			<button (click)='drafts.clearText()' >Clear </button>
+			<button (click)='drafts.save()'>Save </button><br>
+		</span>
+		</div>
+		
+		<div>				<!-- recipients-->
+		<button (click)='drafts.showRecipients()' 
+					    [hidden]='drafts.recipientsIsShowing'>	Add contact </button>	<br>
+		<div  *ngIf='drafts.recipientsIsShowing' class='contactList'>
+			<button (click)='drafts.closeRecipients()' 
+						    [hidden]='!drafts.recipientsIsShowing'>  Done </button>
+			{{drafts.recipientsOutput}}  {{drafts.getRecipients()}} <br>
+				
+			<ul *ngFor='let contact of drafts.contactList; let i=index' 
+				   [class.active]= 'contact.isAttachedToDraft'>
+				<input [checked]= 'contact.isAttachedToDraft' 	type='checkbox' 	
+							(click)='drafts.addRemoveRecipient(contact)'/>
+							{{i +1+'. '+ contact.getName()}}
+			</ul>
+		</div>
+		</div>
+	</div>	<br>
+				
+								<!-- drafts-->
+	<div [hidden]='drafts.recipientsIsShowing'>
+		<h4>Drafts</h4><!-- --> 
+		<ul *ngFor='let draft of drafts.list ; let i=index' class='draft'
+			  [class.active]='draft.isSelected'> 
+			<input  [(ngModel)]='draft.isSelected'  type='checkbox'	/> 
+			{{draft.message}} 
+			<br><i>sent to:{{draft.getRecipients()}}</i>
+			<br>{{draft.date}}
+			<button (click)='drafts.edit(draft)'>edit</button>
+			<button (click)='drafts.remove(i)' class='delete'><b>X</b></button><br>
+			<div *ngIf='draft.openEdit' >
+				<input [(ngModel)]='draft.message'> 
+				<button (click)='drafts.saveEdit(draft, draft.message)'>save</button>
+			</div>
+		</ul>
+	</div> 
+</div>
+	
