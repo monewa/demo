@@ -1,6 +1,5 @@
-/* import * as data from './mail-list.json' ;
-const { firstName } = data;
- */
+/* import x from './mail-list.js' ;*/
+//const { firstName } = data;
 var User = /** @class */ (function () {
     function User(id, firstName, lastName, country, email, phone, comments) {
         this.id = id;
@@ -155,10 +154,10 @@ var MailList = /** @class */ (function () {
         /**/ var http = new XMLHttpRequest();
         http.overrideMimeType('application/json');
         http.open('GET', './mail-list.json', true);
-        console.log('resp1');
-        http.onreadyStateChange = function () {
+        //	console.log(callback())
+        http.onreadystatechange = function (event) {
+            callback(http.responseText);
             if (http.readyState == 4 && http.status == 200) {
-                callback(http.responseText);
                 //	list= JSON.parse()
             }
             http.send(null);
@@ -170,7 +169,12 @@ var MailList = /** @class */ (function () {
     };
     MailList.prototype.init = function () {
         this.getUsers(function (response) {
-            console.log('resp' + response);
+            console.log('response =', response);
+            var json = JSON.parse(response);
+            console.log('your local JSON =', JSON.stringify(json, null, 4));
+            // 4. render to your page
+            var app = document.getElementById('app');
+            app.innerHTML = '<pre> hey' + JSON.stringify(json, null, 4) + '</pre>';
         });
     };
     MailList.prototype.adjustEditBoxSize = function (index) {

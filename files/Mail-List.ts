@@ -1,7 +1,7 @@
 
-/* import * as data from './mail-list.json' ;
-const { firstName } = data;
- */
+/* import x from './mail-list.js' ;*/
+//const { firstName } = data;
+ 
 
 class User{
 
@@ -40,6 +40,7 @@ class MailList{
 	startup():void{
 		this.printUsers(); 
 		this.init();
+		
 	}
 	
 	preventForm():void{
@@ -232,10 +233,10 @@ class MailList{
 /**/	let http= new XMLHttpRequest()
 		http.overrideMimeType('application/json')
 		http.open('GET', './mail-list.json', true);
-		http.onreadystatechange= function(){ 
-		console.log('resp1')
-			if(http.readyState== 4 && http.status== 200){
+	//	console.log(callback())
+		http.onreadystatechange= function(event){ 
 				callback(http.responseText)
+			if(http.readyState== 4 && http.status== 200){
 			//	list= JSON.parse()
 			}
 		http.send(null)
@@ -249,7 +250,13 @@ class MailList{
 	
 	init(){
 		this.getUsers( function (response){
-			console.log('resp'+response)
+			console.log('response =', response);
+    var json = JSON.parse(response);
+    console.log('your local JSON =', JSON.stringify(json, null, 4));
+    // 4. render to your page
+    let app = document.getElementById('app');
+    app.innerHTML = '<pre> hey' + JSON.stringify(json, null, 4) + '</pre>';
+
 			
 		})
 	}

@@ -9,9 +9,9 @@ h1{background-color:black;
 	text-align:center;
 }
 
-nav{
-  overflow:hidden;
-	
+nav{  overflow:hidden;
+	background-color:black;
+	font-size:23px;
 }
 
 ul{float:left; 

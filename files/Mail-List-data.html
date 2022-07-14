@@ -11,7 +11,7 @@
 <nav>
 	<ul>
 		<a href='Mail-List.html'>Back to Mail List</a>		
-		<a href='mail-list.json' target="_blank">JSON data</a>
+		<a href='maildata.js' target="_blank">JSON data</a>
 	</ul>
 </nav>
 
@@ -29,5 +29,30 @@
 
 <label id='datamessage'></label><br><br>
 </body>
+
+
+<script>
+function readTextFile(srcfile) {
+let data
+        try { //this is for IE
+            var fso = new ActiveXObject("Scripting.FileSystemObject");;
+            if (fso.FileExists(srcfile)) {
+                var fileReader = fso.OpenTextFile(srcfile, 1);
+                var line = fileReader.ReadLine();
+                var jsonOutput = JSON.parse(line); 
+				data +=jsonOutput;
+            }
+
+        } catch (e) {
+
+        }
+		
+		return data
+		
+}
+
+;
+console.log('ee', readTextFile("C:\Users\e-Phd\Documents\angular\git\files\maildata.txt"))
+</script>
 
 </html>
